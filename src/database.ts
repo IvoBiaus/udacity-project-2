@@ -7,7 +7,7 @@ const { POSTGRESS_HOST, POSTGRESS_DB, POSTGRESS_USER, POSTGRESS_PASSWORD, POSTGR
   process.env;
 
 let client: Pool;
-console.log('ENV: ', ENV);
+
 if (ENV === 'test') {
   client = new Pool({
     host: POSTGRESS_HOST,

@@ -5,8 +5,6 @@ import { Wood, WoodData, WandWoodStore } from '../models/wand_wood';
 
 const store = new WandWoodStore();
 
-// @todo fix catches errors
-
 const index = async (_: Request, res: Response): Promise<void> => {
   try {
     const woods = await store.index();
