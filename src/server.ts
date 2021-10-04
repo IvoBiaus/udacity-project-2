@@ -1,15 +1,26 @@
-import express, { Request, Response } from 'express'
-import bodyParser from 'body-parser'
+import express, { Request, Response } from 'express';
 
-const app: express.Application = express()
-const address: string = "0.0.0.0:3000"
+import wandCoreRoutes from './handlers/wand_core';
+import wandRoutes from './handlers/wand';
+import wandWoodRoutes from './handlers/wand_wood';
+import userRoutes from './handlers/user';
+import orderRoutes from './handlers/orders';
 
-app.use(bodyParser.json())
+const app = express();
+const address = '0.0.0.0:3000';
 
-app.get('/', function (req: Request, res: Response) {
-    res.send('Hello World!')
-})
+app.use(express.json());
+
+app.get('/', function (_: Request, res: Response) {
+  res.send('Hello World!');
+});
+
+orderRoutes(app);
+userRoutes(app);
+wandCoreRoutes(app);
+wandRoutes(app);
+wandWoodRoutes(app);
 
 app.listen(3000, function () {
-    console.log(`starting app on: ${address}`)
-})
+  console.log(`starting app on: ${address}`);
+});

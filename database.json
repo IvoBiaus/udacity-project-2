@@ -1,0 +1,16 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "wands_shop",
+    "user": "admin_user",
+    "password": "badpassword"
+  },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "wands_shop_test",
+    "user": "test_user",
+    "password": "badpassword"
+  }
+}

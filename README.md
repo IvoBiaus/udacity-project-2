@@ -1,54 +1,115 @@
-# Storefront Backend Project
+# Storefront Backend
 
-## Getting Started
+JavaScript RESTful API to be accessible to the frontend developer.
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+## Models
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+**Order:**
 
-## Steps to Completion
+- id: number;
+- complete: boolean;
+- user_id: number;
+- wands_amount: { [wand_id: string]: number };
 
-### 1. Plan to Meet Requirements
+**User:**
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+- id: number;
+- username: string;
+- password_digest: string;
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+**Wand Core:**
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+- id: number;
+- name: string;
+- notes: string;
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+**Wand Wood:**
 
-### 2.  DB Creation and Migrations
+- id: number;
+- name: string;
+- genus: string;
+- notes: string;
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+**Wand:**
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+- id: number;
+- wood_id: number;
+- length: number;
+- core_id: number;
+- flexibility: string;
+- notes: string;
+- price: number;
 
-### 3. Models
+## Scripts
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+### Run locally
 
-### 4. Express Handlers
+**Take in mind that the ENV variable at `.env` is "test" by default so if you want to run "dev" you have to change it manually**
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+```
+yarn watch
+```
 
-### 5. JWTs
+### Testing
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+The first time:
 
-### 6. QA and `README.md`
+```
+yarn connect
+```
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+then
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+```
+yarn test
+```
+
+if it bugs, to remove test database:
+
+```
+yarn remove-test
+```
+
+## Endpoints
+
+**Orders:**
+
+- index: `/orders`
+- show: `/orders/:id` [Token Required]
+- completedByUser: `/orders/:id/completed` [Token Required]
+- create: `/orders` [Token Required]
+- update: `/orders/:id` [Token Required]
+- complete: `/orders/:id/complete` [Token Required]
+- remove: `/orders/:id` [Token Required]
+
+**Users:**
+
+- index: `/users` [Token Required]
+- show: `/users/:id` [Token Required]
+- authenticate: `/login`
+- create: `/users` [Token Required]
+- update: `/users/:id` [Token Required][being owner required]
+
+**Wands Cores:**
+
+- index: `/cores`
+- show: `/cores/:id`
+- create: `/cores` [Token Required]
+- update: `/cores/:id` [Token Required]
+- remove: `/cores/:id` [Token Required]
+
+**Wands Woods:**
+
+- index: `/woods`
+- show: `/woods/:id`
+- create: `/woods` [Token Required]
+- update: `/woods/:id` [Token Required]
+- remove: `/woods/:id` [Token Required]
+
+**Wands:**
+
+- index: `/wands`
+- show: `/wands/:id`
+- create: `/wands` [Token Required]
+- update: `/wands/:id` [Token Required]
+- remove: `/wands/:id` [Token Required]
