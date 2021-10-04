@@ -39,7 +39,6 @@ exports.__esModule = true;
 var middlewares_1 = require("../middlewares");
 var wand_wood_1 = require("../models/wand_wood");
 var store = new wand_wood_1.WandWoodStore();
-// @todo fix catches errors
 var index = function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     var woods, e_1;
     return __generator(this, function (_a) {

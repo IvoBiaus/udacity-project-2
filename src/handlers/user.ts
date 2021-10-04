@@ -74,7 +74,7 @@ const userRoutes = (app: express.Application): void => {
   app.get('/users', verifyAuthToken, index);
   app.get('/users/:id', verifyAuthToken, show);
   app.get('/login', authenticate);
-  app.post('/users', verifyAuthToken, create);
+  app.post('/users', create);
   app.put('/users/:id', verifyIsOwner, update);
 };
 

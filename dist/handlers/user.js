@@ -164,7 +164,7 @@ var userRoutes = function (app) {
     app.get('/users', middlewares_1.verifyAuthToken, index);
     app.get('/users/:id', middlewares_1.verifyAuthToken, show);
     app.get('/login', authenticate);
-    app.post('/users', middlewares_1.verifyAuthToken, create);
+    app.post('/users', create);
     app.put('/users/:id', middlewares_1.verifyIsOwner, update);
 };
 exports["default"] = userRoutes;
