@@ -88,7 +88,7 @@ yarn remove-test
 - show: `/users/:id` [Token Required]
 - authenticate: `/login`
 - create: `/users` [Token Required]
-- update: `/users/:id` [Token Required][being owner required]
+- update: `/users/:id` [Token Required][Being Owner Required]
 
 **Wands Cores:**
 
