@@ -4,10 +4,10 @@ export interface Core extends CoreData {
   id: number;
 }
 
-export type CoreData = {
+export interface CoreData {
   name: string;
   notes: string;
-};
+}
 
 export class WandCoreStore {
   async index(): Promise<Core[]> {

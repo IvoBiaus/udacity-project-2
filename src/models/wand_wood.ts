@@ -4,11 +4,11 @@ export interface Wood extends WoodData {
   id: number;
 }
 
-export type WoodData = {
+export interface WoodData {
   name: string;
   genus: string;
   notes: string;
-};
+}
 
 export class WandWoodStore {
   async index(): Promise<Wood[]> {

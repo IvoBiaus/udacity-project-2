@@ -3,19 +3,19 @@ import client from '../database';
 
 const { CRYPT_PASSWORD: pepper, SALT_ROUNDS: saltRounds } = process.env;
 
-export type User = {
+export interface User {
   id: number;
   username: string;
   password_digest: string;
-};
+}
 
 export interface UserData extends UserPublicData {
   password: string;
 }
 
-export type UserPublicData = {
+export interface UserPublicData {
   username: string;
-};
+}
 
 export const isValidPassword = (pass: string, digest: string): boolean =>
   bcrypt.compareSync(pass + pepper, digest);

@@ -5,10 +5,10 @@ export interface Order extends OrderData {
   complete: boolean;
 }
 
-export type OrderData = {
+export interface OrderData {
   user_id: number;
   wands_amount: { [wand_id: number]: number };
-};
+}
 
 export class OrderStore {
   async index(uid: number): Promise<Order[]> {
