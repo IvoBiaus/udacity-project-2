@@ -76,7 +76,7 @@ yarn remove-test
 
 - index: `/orders`
 - show: `/orders/:id` [Token Required]
-- completedByUser: `/orders/:id/completed` [Token Required]
+- completedByUser: `/orders/completed` [Token Required]
 - create: `/orders` [Token Required]
 - update: `/orders/:id` [Token Required]
 - complete: `/orders/:id/complete` [Token Required]

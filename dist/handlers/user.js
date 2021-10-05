@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
+var express_1 = __importDefault(require("express"));
 var user_1 = require("../models/user");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var middlewares_1 = require("../middlewares");
@@ -69,7 +70,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store.show(req.body.id)];
+                return [4 /*yield*/, store.show(parseInt(req.params.id))];
             case 1:
                 user = _a.sent();
                 res.json(user);
@@ -135,7 +136,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, id, updated, e_5;
+    var user, id, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -149,8 +150,8 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, store.update(user, id)];
             case 2:
-                updated = _a.sent();
-                res.json(updated);
+                _a.sent();
+                res.sendStatus(200);
                 return [3 /*break*/, 4];
             case 3:
                 e_5 = _a.sent();
@@ -160,11 +161,10 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var userRoutes = function (app) {
-    app.get('/users', middlewares_1.verifyAuthToken, index);
-    app.get('/users/:id', middlewares_1.verifyAuthToken, show);
-    app.get('/login', authenticate);
-    app.post('/users', create);
-    app.put('/users/:id', middlewares_1.verifyIsOwner, update);
-};
+var userRoutes = express_1["default"].Router();
+userRoutes.get('/users', middlewares_1.verifyAuthToken, index);
+userRoutes.get('/users/:id', middlewares_1.verifyAuthToken, show);
+userRoutes.get('/login', authenticate);
+userRoutes.post('/users', create);
+userRoutes.put('/users/:id', middlewares_1.verifyIsOwner, update);
 exports["default"] = userRoutes;

@@ -17,7 +17,7 @@ const index = async (_: Request, res: Response): Promise<void> => {
 
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const user = await store.show(req.body.id);
+    const user = await store.show(parseInt(req.params.id));
     res.json(user);
   } catch (e) {
     res.status(400).send(e);
@@ -63,19 +63,18 @@ const update = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id);
 
   try {
-    const updated = await store.update(user, id);
-    res.json(updated);
+    await store.update(user, id);
+    res.sendStatus(200);
   } catch (e) {
     res.status(400).send(e);
   }
 };
+const userRoutes = express.Router();
 
-const userRoutes = (app: express.Application): void => {
-  app.get('/users', verifyAuthToken, index);
-  app.get('/users/:id', verifyAuthToken, show);
-  app.get('/login', authenticate);
-  app.post('/users', create);
-  app.put('/users/:id', verifyIsOwner, update);
-};
+userRoutes.get('/users', verifyAuthToken, index);
+userRoutes.get('/users/:id', verifyAuthToken, show);
+userRoutes.get('/login', authenticate);
+userRoutes.post('/users', create);
+userRoutes.put('/users/:id', verifyIsOwner, update);
 
 export default userRoutes;

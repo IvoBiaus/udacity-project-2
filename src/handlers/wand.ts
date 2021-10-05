@@ -16,15 +16,15 @@ const index = async (_: Request, res: Response): Promise<void> => {
 
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const wands = await store.show(req.body.id);
-    res.json(wands);
+    const wand = await store.show(parseInt(req.params.id));
+    res.json(wand);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
 const create = async (req: Request, res: Response): Promise<void> => {
-  const wand: WandData = {
+  const wandData: WandData = {
     wood_id: req.body.wood_id,
     length: req.body.length,
     core_id: req.body.core_id,
@@ -34,8 +34,8 @@ const create = async (req: Request, res: Response): Promise<void> => {
   };
 
   try {
-    const wands = await store.create(wand);
-    res.json(wands);
+    const wand = await store.create(wandData);
+    res.json(wand);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -43,7 +43,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
 const update = async (req: Request, res: Response): Promise<void> => {
   const wand: Wand = {
-    id: req.body.id,
+    id: parseInt(req.params.id),
     wood_id: req.body.wood_id,
     length: req.body.length,
     core_id: req.body.core_id,
@@ -53,8 +53,8 @@ const update = async (req: Request, res: Response): Promise<void> => {
   };
 
   try {
-    const wands = await store.update(wand);
-    res.json(wands);
+    await store.update(wand);
+    res.json(wand);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -62,19 +62,19 @@ const update = async (req: Request, res: Response): Promise<void> => {
 
 const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const wands = await store.delete(req.body.id);
-    res.json(wands);
+    const wand = await store.delete(parseInt(req.params.id));
+    res.json(wand);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
-const wandRoutes = (app: express.Application): void => {
-  app.get('/wands', index);
-  app.get('/wands/:id', show);
-  app.post('/wands', verifyAuthToken, create);
-  app.put('/wands/:id', verifyAuthToken, update);
-  app.delete('/wands/:id', verifyAuthToken, remove);
-};
+const wandRoutes = express.Router();
+
+wandRoutes.get('/', index);
+wandRoutes.get('/:id', show);
+wandRoutes.post('/', verifyAuthToken, create);
+wandRoutes.put('/:id', verifyAuthToken, update);
+wandRoutes.delete('/:id', verifyAuthToken, remove);
 
 export default wandRoutes;

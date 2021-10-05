@@ -35,7 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+var express_1 = __importDefault(require("express"));
 var middlewares_1 = require("../middlewares");
 var wand_core_1 = require("../models/wand_core");
 var store = new wand_core_1.WandCoreStore();
@@ -64,7 +68,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store.show(req.body.id)];
+                return [4 /*yield*/, store.show(parseInt(req.params.id))];
             case 1:
                 core = _a.sent();
                 res.json(core);
@@ -78,21 +82,21 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var core, cores, e_3;
+    var coreData, core, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                core = {
+                coreData = {
                     name: req.body.name,
                     notes: req.body.notes
                 };
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store.create(core)];
+                return [4 /*yield*/, store.create(coreData)];
             case 2:
-                cores = _a.sent();
-                res.json(cores);
+                core = _a.sent();
+                res.json(core);
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
@@ -103,12 +107,12 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var core, cores, e_4;
+    var core, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 core = {
-                    id: req.body.id,
+                    id: parseInt(req.params.id),
                     name: req.body.name,
                     notes: req.body.notes
                 };
@@ -117,8 +121,8 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, store.update(core)];
             case 2:
-                cores = _a.sent();
-                res.json(cores);
+                _a.sent();
+                res.json(core);
                 return [3 /*break*/, 4];
             case 3:
                 e_4 = _a.sent();
@@ -129,15 +133,15 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var cores, e_5;
+    var core, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store["delete"](req.body.id)];
+                return [4 /*yield*/, store["delete"](parseInt(req.params.id))];
             case 1:
-                cores = _a.sent();
-                res.json(cores);
+                core = _a.sent();
+                res.json(core);
                 return [3 /*break*/, 3];
             case 2:
                 e_5 = _a.sent();
@@ -147,11 +151,10 @@ var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var wandCoreRoutes = function (app) {
-    app.get('/cores', index);
-    app.get('/cores/:id', show);
-    app.post('/cores', middlewares_1.verifyAuthToken, create);
-    app.put('/cores/:id', middlewares_1.verifyAuthToken, update);
-    app["delete"]('/cores/:id', middlewares_1.verifyAuthToken, remove);
-};
+var wandCoreRoutes = express_1["default"].Router();
+wandCoreRoutes.get('/', index);
+wandCoreRoutes.get('/:id', show);
+wandCoreRoutes.post('/', middlewares_1.verifyAuthToken, create);
+wandCoreRoutes.put('/:id', middlewares_1.verifyAuthToken, update);
+wandCoreRoutes["delete"]('/:id', middlewares_1.verifyAuthToken, remove);
 exports["default"] = wandCoreRoutes;

@@ -35,7 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+var express_1 = __importDefault(require("express"));
 var middlewares_1 = require("../middlewares");
 var wand_1 = require("../models/wand");
 var store = new wand_1.WandStore();
@@ -59,15 +63,15 @@ var index = function (_, res) { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wands, e_2;
+    var wand, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store.show(req.body.id)];
+                return [4 /*yield*/, store.show(parseInt(req.params.id))];
             case 1:
-                wands = _a.sent();
-                res.json(wands);
+                wand = _a.sent();
+                res.json(wand);
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
@@ -78,11 +82,11 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wand, wands, e_3;
+    var wandData, wand, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                wand = {
+                wandData = {
                     wood_id: req.body.wood_id,
                     length: req.body.length,
                     core_id: req.body.core_id,
@@ -93,10 +97,10 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store.create(wand)];
+                return [4 /*yield*/, store.create(wandData)];
             case 2:
-                wands = _a.sent();
-                res.json(wands);
+                wand = _a.sent();
+                res.json(wand);
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _a.sent();
@@ -107,12 +111,12 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wand, wands, e_4;
+    var wand, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 wand = {
-                    id: req.body.id,
+                    id: parseInt(req.params.id),
                     wood_id: req.body.wood_id,
                     length: req.body.length,
                     core_id: req.body.core_id,
@@ -125,8 +129,8 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, store.update(wand)];
             case 2:
-                wands = _a.sent();
-                res.json(wands);
+                _a.sent();
+                res.json(wand);
                 return [3 /*break*/, 4];
             case 3:
                 e_4 = _a.sent();
@@ -137,15 +141,15 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var wands, e_5;
+    var wand, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store["delete"](req.body.id)];
+                return [4 /*yield*/, store["delete"](parseInt(req.params.id))];
             case 1:
-                wands = _a.sent();
-                res.json(wands);
+                wand = _a.sent();
+                res.json(wand);
                 return [3 /*break*/, 3];
             case 2:
                 e_5 = _a.sent();
@@ -155,11 +159,10 @@ var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var wandRoutes = function (app) {
-    app.get('/wands', index);
-    app.get('/wands/:id', show);
-    app.post('/wands', middlewares_1.verifyAuthToken, create);
-    app.put('/wands/:id', middlewares_1.verifyAuthToken, update);
-    app["delete"]('/wands/:id', middlewares_1.verifyAuthToken, remove);
-};
+var wandRoutes = express_1["default"].Router();
+wandRoutes.get('/', index);
+wandRoutes.get('/:id', show);
+wandRoutes.post('/', middlewares_1.verifyAuthToken, create);
+wandRoutes.put('/:id', middlewares_1.verifyAuthToken, update);
+wandRoutes["delete"]('/:id', middlewares_1.verifyAuthToken, remove);
 exports["default"] = wandRoutes;

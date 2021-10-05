@@ -16,7 +16,7 @@ const index = async (_: Request, res: Response): Promise<void> => {
 
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const core = await store.show(req.body.id);
+    const core = await store.show(parseInt(req.params.id));
     res.json(core);
   } catch (e) {
     res.status(400).send(e);
@@ -24,14 +24,14 @@ const show = async (req: Request, res: Response): Promise<void> => {
 };
 
 const create = async (req: Request, res: Response): Promise<void> => {
-  const core: CoreData = {
+  const coreData: CoreData = {
     name: req.body.name,
     notes: req.body.notes,
   };
 
   try {
-    const cores = await store.create(core);
-    res.json(cores);
+    const core = await store.create(coreData);
+    res.json(core);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -39,14 +39,14 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
 const update = async (req: Request, res: Response): Promise<void> => {
   const core: Core = {
-    id: req.body.id,
+    id: parseInt(req.params.id),
     name: req.body.name,
     notes: req.body.notes,
   };
 
   try {
-    const cores = await store.update(core);
-    res.json(cores);
+    await store.update(core);
+    res.json(core);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -54,19 +54,19 @@ const update = async (req: Request, res: Response): Promise<void> => {
 
 const remove = async (req: Request, res: Response): Promise<void> => {
   try {
-    const cores = await store.delete(req.body.id);
-    res.json(cores);
+    const core = await store.delete(parseInt(req.params.id));
+    res.json(core);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
-const wandCoreRoutes = (app: express.Application): void => {
-  app.get('/cores', index);
-  app.get('/cores/:id', show);
-  app.post('/cores', verifyAuthToken, create);
-  app.put('/cores/:id', verifyAuthToken, update);
-  app.delete('/cores/:id', verifyAuthToken, remove);
-};
+const wandCoreRoutes = express.Router();
+
+wandCoreRoutes.get('/', index);
+wandCoreRoutes.get('/:id', show);
+wandCoreRoutes.post('/', verifyAuthToken, create);
+wandCoreRoutes.put('/:id', verifyAuthToken, update);
+wandCoreRoutes.delete('/:id', verifyAuthToken, remove);
 
 export default wandCoreRoutes;

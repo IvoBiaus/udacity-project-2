@@ -7,8 +7,8 @@ const store = new OrderStore();
 
 const index = async (req: Request, res: Response): Promise<void> => {
   try {
-    // const uid = getUidFromToken(req);
-    const orders = await store.index(4);
+    const uid = await getUidFromToken(req);
+    const orders = await store.index(uid);
     res.json(orders);
   } catch (e) {
     res.status(400).send(e);
@@ -16,10 +16,9 @@ const index = async (req: Request, res: Response): Promise<void> => {
 };
 
 const show = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
-
   try {
-    const order = await store.show(req.body.id, uid);
+    const uid = await getUidFromToken(req);
+    const order = await store.show(parseInt(req.params.id), uid);
     res.json(order);
   } catch (e) {
     res.status(400).send(e);
@@ -27,14 +26,13 @@ const show = async (req: Request, res: Response): Promise<void> => {
 };
 
 const create = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
-
-  const order: OrderData = {
-    user_id: uid,
-    wands_amount: req.body.wands_amount,
-  };
-
   try {
+    const uid = await getUidFromToken(req);
+    const order: OrderData = {
+      user_id: uid,
+      wands_amount: req.body.wands_amount,
+    };
+
     const newOrder = await store.create(order);
     res.json(newOrder);
   } catch (e) {
@@ -43,38 +41,37 @@ const create = async (req: Request, res: Response): Promise<void> => {
 };
 
 const update = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
-
-  const order: Order = {
-    id: req.body.id,
-    user_id: uid,
-    complete: false,
-    wands_amount: req.body.wands_amount,
-  };
-
   try {
-    const updatedOrder = await store.update(order);
-    res.json(updatedOrder);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
+    const uid = await getUidFromToken(req);
 
-const complete = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
+    const order: Order = {
+      id: parseInt(req.params.id),
+      user_id: uid,
+      complete: false,
+      wands_amount: req.body.wands_amount,
+    };
 
-  try {
-    const order = await store.complete(req.body.id, uid);
+    await store.update(order);
+
     res.json(order);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
-const completedByUser = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
-
+const complete = async (req: Request, res: Response): Promise<void> => {
   try {
+    const uid = await getUidFromToken(req);
+    await store.complete(parseInt(req.params.id), uid);
+    res.sendStatus(200);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
+const completedByUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const uid = await getUidFromToken(req);
     const orders = await store.completedByUser(uid);
     res.json(orders);
   } catch (e) {
@@ -83,24 +80,23 @@ const completedByUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 const remove = async (req: Request, res: Response): Promise<void> => {
-  const uid = getUidFromToken(req);
-
   try {
-    const order = await store.delete(req.body.id, uid);
+    const uid = await getUidFromToken(req);
+    const order = await store.delete(parseInt(req.params.id), uid);
     res.json(order);
   } catch (e) {
     res.status(400).send(e);
   }
 };
 
-const orderRoutes = (app: express.Application): void => {
-  app.get('/orders', index);
-  app.get('/orders/:id', verifyAuthToken, show);
-  app.get('/orders/:id/completed', verifyAuthToken, completedByUser);
-  app.post('/orders', verifyAuthToken, create);
-  app.put('/orders/:id', verifyAuthToken, update);
-  app.put('/orders/:id/complete', verifyAuthToken, complete);
-  app.delete('/orders/:id', verifyAuthToken, remove);
-};
+const orderRoutes = express.Router();
+
+orderRoutes.get('/', verifyAuthToken, index);
+orderRoutes.get('/completed', verifyAuthToken, completedByUser);
+orderRoutes.get('/:id', verifyAuthToken, show);
+orderRoutes.post('/', verifyAuthToken, create);
+orderRoutes.put('/:id', verifyAuthToken, update);
+orderRoutes.put('/:id/complete', verifyAuthToken, complete);
+orderRoutes.delete('/:id', verifyAuthToken, remove);
 
 export default orderRoutes;

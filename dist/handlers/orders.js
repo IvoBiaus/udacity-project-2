@@ -35,27 +35,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
+var express_1 = __importDefault(require("express"));
 var helpers_1 = require("../helpers");
 var middlewares_1 = require("../middlewares");
 var orders_1 = require("../models/orders");
 var store = new orders_1.OrderStore();
 var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orders, e_1;
+    var uid, orders, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, store.index(4)];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
             case 1:
+                uid = _a.sent();
+                return [4 /*yield*/, store.index(uid)];
+            case 2:
                 orders = _a.sent();
                 res.json(orders);
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 res.status(400).send(e_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -64,11 +71,11 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
-                _a.label = 1;
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store.show(req.body.id, uid)];
+                uid = _a.sent();
+                return [4 /*yield*/, store.show(parseInt(req.params.id), uid)];
             case 2:
                 order = _a.sent();
                 res.json(order);
@@ -86,14 +93,14 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
+            case 1:
+                uid = _a.sent();
                 order = {
                     user_id: uid,
                     wands_amount: req.body.wands_amount
                 };
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, store.create(order)];
             case 2:
                 newOrder = _a.sent();
@@ -108,24 +115,24 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var uid, order, updatedOrder, e_4;
+    var uid, order, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
+            case 1:
+                uid = _a.sent();
                 order = {
-                    id: req.body.id,
+                    id: parseInt(req.params.id),
                     user_id: uid,
                     complete: false,
                     wands_amount: req.body.wands_amount
                 };
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, store.update(order)];
             case 2:
-                updatedOrder = _a.sent();
-                res.json(updatedOrder);
+                _a.sent();
+                res.json(order);
                 return [3 /*break*/, 4];
             case 3:
                 e_4 = _a.sent();
@@ -136,18 +143,18 @@ var update = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var complete = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var uid, order, e_5;
+    var uid, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
-                _a.label = 1;
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store.complete(req.body.id, uid)];
+                uid = _a.sent();
+                return [4 /*yield*/, store.complete(parseInt(req.params.id), uid)];
             case 2:
-                order = _a.sent();
-                res.json(order);
+                _a.sent();
+                res.sendStatus(200);
                 return [3 /*break*/, 4];
             case 3:
                 e_5 = _a.sent();
@@ -162,10 +169,10 @@ var completedByUser = function (req, res) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
-                _a.label = 1;
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
             case 1:
-                _a.trys.push([1, 3, , 4]);
+                uid = _a.sent();
                 return [4 /*yield*/, store.completedByUser(uid)];
             case 2:
                 orders = _a.sent();
@@ -184,11 +191,11 @@ var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                uid = (0, helpers_1.getUidFromToken)(req);
-                _a.label = 1;
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, (0, helpers_1.getUidFromToken)(req)];
             case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store["delete"](req.body.id, uid)];
+                uid = _a.sent();
+                return [4 /*yield*/, store["delete"](parseInt(req.params.id), uid)];
             case 2:
                 order = _a.sent();
                 res.json(order);
@@ -201,13 +208,12 @@ var remove = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var orderRoutes = function (app) {
-    app.get('/orders', index);
-    app.get('/orders/:id', middlewares_1.verifyAuthToken, show);
-    app.get('/orders/:id/completed', middlewares_1.verifyAuthToken, completedByUser);
-    app.post('/orders', middlewares_1.verifyAuthToken, create);
-    app.put('/orders/:id', middlewares_1.verifyAuthToken, update);
-    app.put('/orders/:id/complete', middlewares_1.verifyAuthToken, complete);
-    app["delete"]('/orders/:id', middlewares_1.verifyAuthToken, remove);
-};
+var orderRoutes = express_1["default"].Router();
+orderRoutes.get('/', middlewares_1.verifyAuthToken, index);
+orderRoutes.get('/completed', middlewares_1.verifyAuthToken, completedByUser);
+orderRoutes.get('/:id', middlewares_1.verifyAuthToken, show);
+orderRoutes.post('/', middlewares_1.verifyAuthToken, create);
+orderRoutes.put('/:id', middlewares_1.verifyAuthToken, update);
+orderRoutes.put('/:id/complete', middlewares_1.verifyAuthToken, complete);
+orderRoutes["delete"]('/:id', middlewares_1.verifyAuthToken, remove);
 exports["default"] = orderRoutes;
