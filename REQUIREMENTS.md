@@ -8,45 +8,45 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 **Orders:**
 
-- index: `/orders`
-- show: `/orders/:id` [Token Required]
-- completedByUser: `/orders/completed` [Token Required]
-- create: `/orders` [Token Required]
-- update: `/orders/:id` [Token Required]
-- complete: `/orders/:id/complete` [Token Required]
-- remove: `/orders/:id` [Token Required]
+- GET: `/orders`
+- GET: `/orders/:id` [Token Required]
+- GET: `/orders/completed` [Token Required]
+- POST: `/orders` [Token Required]
+- PUT: `/orders/:id` [Token Required]
+- PUT: `/orders/:id/complete` [Token Required]
+- DELETE: `/orders/:id` [Token Required]
 
 **Users:**
 
-- index: `/users` [Token Required]
-- show: `/users/:id` [Token Required]
-- authenticate: `/login`
-- create: `/users`
-- update: `/users/:id` [Token Required][being owner required]
+- GET: `/users` [Token Required]
+- GET: `/users/:id` [Token Required]
+- GET: `/login`
+- POST: `/users`
+- PUT: `/users/:id` [Token Required][being owner required]
 
 **Wands Cores:**
 
-- index: `/cores`
-- show: `/cores/:id`
-- create: `/cores` [Token Required]
-- update: `/cores/:id` [Token Required]
-- remove: `/cores/:id` [Token Required]
+- GET: `/cores`
+- GET: `/cores/:id`
+- POST: `/cores` [Token Required]
+- PUT: `/cores/:id` [Token Required]
+- DELETE: `/cores/:id` [Token Required]
 
 **Wands Woods:**
 
-- index: `/woods`
-- show: `/woods/:id`
-- create: `/woods` [Token Required]
-- update: `/woods/:id` [Token Required]
-- remove: `/woods/:id` [Token Required]
+- GET: `/woods`
+- GET: `/woods/:id`
+- POST: `/woods` [Token Required]
+- PUT: `/woods/:id` [Token Required]
+- DELETE: `/woods/:id` [Token Required]
 
 **Wands:**
 
-- index: `/wands`
-- show: `/wands/:id`
-- create: `/wands` [Token Required]
-- update: `/wands/:id` [Token Required]
-- remove: `/wands/:id` [Token Required]
+- GET: `/wands`
+- GET: `/wands/:id`
+- POST: `/wands` [Token Required]
+- PUT: `/wands/:id` [Token Required]
+- DELETE: `/wands/:id` [Token Required]
 
 ## Data Shapes
 
