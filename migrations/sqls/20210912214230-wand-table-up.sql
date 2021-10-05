@@ -4,5 +4,6 @@ CREATE TABLE wands (
   length REAL not null,
   core_id int REFERENCES cores(id),
   flexibility VARCHAR(36) not null,
-  notes TEXT, price int NOT NULL
+  notes TEXT,
+  price int NOT NULL
 ); 

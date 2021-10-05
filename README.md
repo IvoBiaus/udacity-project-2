@@ -2,49 +2,70 @@
 
 JavaScript RESTful API to be accessible to the frontend developer.
 
-## Models
+## Column types by table
 
 **Order:**
 
-- id: number;
-- complete: boolean;
-- user_id: number;
-- wands_amount: { [wand_id: string]: number };
+- id SERIAL PRIMARY KEY
+- complete boolean
+- user_id int REFERENCES users(id)
+- wands_amount json NOT NULL `{ [wand_id: string]: number }`
 
 **User:**
 
-- id: number;
-- username: string;
-- password_digest: string;
+- id SERIAL PRIMARY KEY
+- username VARCHAR(100)
+- password_digest VARCHAR
 
 **Wand Core:**
 
-- id: number;
-- name: string;
-- notes: string;
+- id SERIAL PRIMARY KEY
+- name VARCHAR(36) not null
+- notes TEXT
 
 **Wand Wood:**
 
-- id: number;
-- name: string;
-- genus: string;
-- notes: string;
+- id SERIAL PRIMARY KEY
+- name VARCHAR(16) not null
+- genus VARCHAR(32) not null
+- notes TEXT
 
 **Wand:**
 
-- id: number;
-- wood_id: number;
-- length: number;
-- core_id: number;
-- flexibility: string;
-- notes: string;
-- price: number;
+- id SERIAL PRIMARY KEY
+- wood_id int REFERENCES woods(id)
+- length REAL not null
+- core_id int REFERENCES cores(id)
+- flexibility VARCHAR(36) not null
+- notes TEXT
+- price int NOT NULL
 
-## Scripts
+## ENV variable requirments
+
+**Take in mind that the ENV variable you have to change it manually to switch from test and dev**
+POSTGRESS_HOST
+POSTGRESS_DB
+POSTGRESS_TEST_DB
+POSTGRESS_USER
+POSTGRESS_PASSWORD
+
+JWT_SECRET
+BCRYPT_PASSWORD
+SALT_ROUNDS
+
+ENV
+
+## Usage
+
+To intall all the dependencies
+
+```
+yarn
+```
 
 ### Run locally
 
-**Take in mind that the ENV variable at `.env` is "test" by default so if you want to run "dev" you have to change it manually**
+Server runs at port 3000
 
 ```
 yarn watch
@@ -65,6 +86,12 @@ yarn test
 ```
 
 if it bugs, to remove test database:
+
+```
+yarn remove-test
+```
+
+### To create the tables
 
 ```
 yarn remove-test
