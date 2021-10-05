@@ -12,7 +12,7 @@ export const getUidFromToken = async (req: Request): Promise<number> => {
     throw new Error('Empty auth headers.');
   }
 
-  const token = (req.headers.authorization || '').split(' ')[1] || '';
+  const token = req.headers.authorization.split(' ')[1];
   const decoded = (await jwt.verify(token, JWT_SECRET as jwt.Secret)) as {
     user: User;
   };
