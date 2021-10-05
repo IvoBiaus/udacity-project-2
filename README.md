@@ -6,39 +6,39 @@ JavaScript RESTful API to be accessible to the frontend developer.
 
 **Order:**
 
-- id SERIAL PRIMARY KEY
-- complete boolean
-- user_id int REFERENCES users(id)
-- wands_amount json NOT NULL `{ [wand_id: string]: number }`
+- id `SERIAL PRIMARY KEY`
+- complete `boolean`
+- user_id `int REFERENCES users(id)`
+- wands_amount `json NOT NULL` **{ [wand_id: string]: number }**
 
 **User:**
 
-- id SERIAL PRIMARY KEY
-- username VARCHAR(100)
-- password_digest VARCHAR
+- id `SERIAL PRIMARY KEY`
+- username `VARCHAR(100)`
+- password_digest `VARCHAR`
 
 **Wand Core:**
 
-- id SERIAL PRIMARY KEY
-- name VARCHAR(36) not null
-- notes TEXT
+- id `SERIAL PRIMARY KEY`
+- name `VARCHAR(36) not null`
+- notes `TEXT`
 
 **Wand Wood:**
 
-- id SERIAL PRIMARY KEY
-- name VARCHAR(16) not null
-- genus VARCHAR(32) not null
-- notes TEXT
+- id `SERIAL PRIMARY KEY`
+- name `VARCHAR(16) not null`
+- genus `VARCHAR(32) not null`
+- notes `TEXT`
 
 **Wand:**
 
-- id SERIAL PRIMARY KEY
-- wood_id int REFERENCES woods(id)
-- length REAL not null
-- core_id int REFERENCES cores(id)
-- flexibility VARCHAR(36) not null
-- notes TEXT
-- price int NOT NULL
+- id `SERIAL PRIMARY KEY`
+- wood_id `int REFERENCES woods(id)`
+- length `REAL not null`
+- core_id `int REFERENCES cores(id)`
+- flexibility `VARCHAR(36) not null`
+- notes `TEXT`
+- price `int NOT NULL`
 
 ## ENV variable requirments
 
